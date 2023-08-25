@@ -27,7 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/", () => "Hello Word 1");
 
-var gameRoute = app.MapGroup("games");
+var gameRoute = app.MapGroup("games").WithParameterValidation();
 
 gameRoute.MapGet("", () => games);
 gameRoute.MapGet("/{id}", (int id) => games.Find(game => game.Id == id));

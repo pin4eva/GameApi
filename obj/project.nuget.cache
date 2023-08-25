@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "8uu9Y8RvUU5NiuZ8TjHDf8SV3Va1QYJUpayrBBooM5hE+2Mp1Dw6xnVTHxdczS/0kbzcvrUbFGkAgbUqyEgJPA==",
+  "dgSpecHash": "x64AauZ5KUbvbVstEXOEqcOcb4RpaGpKF6X3jrST5Abu2UZeRxWRK0wxVepNR8mZIvdu3BXIFLfIYS7e0dFWmQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Peter\\Desktop\\projects\\c#\\GameApi\\GameApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Peter\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.7\\microsoft.aspnetcore.openapi.7.0.7.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\Peter\\.nuget\\packages\\minimalapis.extensions\\0.11.0\\minimalapis.extensions.0.11.0.nupkg.sha512",
+    "C:\\Users\\Peter\\.nuget\\packages\\minivalidation\\0.8.0\\minivalidation.0.8.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\Peter\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

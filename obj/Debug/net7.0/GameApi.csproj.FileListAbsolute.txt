@@ -31,3 +31,5 @@ C:\Users\Peter\Desktop\projects\c#\GameApi\obj\Debug\net7.0\refint\GameApi.dll
 C:\Users\Peter\Desktop\projects\c#\GameApi\obj\Debug\net7.0\GameApi.pdb
 C:\Users\Peter\Desktop\projects\c#\GameApi\obj\Debug\net7.0\GameApi.genruntimeconfig.cache
 C:\Users\Peter\Desktop\projects\c#\GameApi\obj\Debug\net7.0\ref\GameApi.dll
+C:\Users\Peter\Desktop\projects\c#\GameApi\bin\Debug\net7.0\MinimalApis.Extensions.dll
+C:\Users\Peter\Desktop\projects\c#\GameApi\bin\Debug\net7.0\MiniValidation.dll
