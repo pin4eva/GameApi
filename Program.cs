@@ -26,9 +26,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/", () => "Hello Word 1");
-app.MapGet("/games", () => games);
-app.MapGet("/games/{id}", (int id) => games.Find(game => game.Id == id));
-app.MapPost("/games", (Game game) =>
+
+var gameRoute = app.MapGroup("games");
+
+gameRoute.MapGet("", () => games);
+gameRoute.MapGet("/{id}", (int id) => games.Find(game => game.Id == id));
+gameRoute.MapPost("", (Game game) =>
 {
     game.Id = games.Max(game => game.Id) + 1;
 
@@ -36,7 +39,7 @@ app.MapPost("/games", (Game game) =>
     return games;
 });
 
-app.MapPut("/games/{id}", (int id, Game game) =>
+app.MapPut("/{id}", (int id, Game game) =>
 {
     Game? existingGame = games.Find(game => game.Id == id);
     if (existingGame is null) return Results.NotFound("Game not found");
@@ -49,7 +52,7 @@ app.MapPut("/games/{id}", (int id, Game game) =>
     return Results.Ok(game);
 });
 
-app.MapDelete("/games/{id}", (int id) =>
+app.MapDelete("/{id}", (int id) =>
 {
     Game? game = games.Find(game => game.Id == id);
     if (game is null) return Results.NotFound("game not found");
