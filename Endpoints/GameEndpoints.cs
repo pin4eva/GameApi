@@ -3,53 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameApi.Entities;
+using GameApi.Repositories;
 
 namespace GameApi.Endpoints;
 
 public static class GameEndpoints
 {
-    public static List<Game> games = new()
-{
-new Game(){Id=1, Name="Street Fighter II", Genre="Fighting",Price=19.99M,ReleaseDate= new DateTime(2022, 1, 1),ImageUrl="https://placeholder.co/100"},
-new Game(){Id=2, Name="Final Fantacy XIV", Genre="RolePlaying",Price=69.99M,ReleaseDate= new DateTime(2010, 9, 3),ImageUrl="https://placeholder.co/100"},
-new Game(){Id=3, Name="FIFA 23", Genre="Fighting",Price=19.99M,ReleaseDate= new DateTime(2022, 9, 27),ImageUrl="https://placeholder.co/100"},
-};
+
 
     public static RouteGroupBuilder MapGameEndpoints(this IEndpointRouteBuilder route)
     {
-
+        InMemoryRepository repository = new();
 
 
         var gameRoute = route.MapGroup("/games").WithParameterValidation();
 
-        gameRoute.MapGet("", () => games);
-        gameRoute.MapGet("/{id}", (int id) => games.Find(game => game.Id == id));
+        gameRoute.MapGet("", () => repository.GetGames());
+        gameRoute.MapGet("/{id}", (int id) => repository.GetGame(id));
         gameRoute.MapPost("", (Game game) =>
         {
-            game.Id = games.Max(game => game.Id) + 1;
-
-            games.Add(game);
-            return games;
+            return repository.CreateGame(game);
         });
 
-        gameRoute.MapPut("/{id}", (int id, Game game) =>
+        gameRoute.MapPut("/", (Game game) =>
         {
-            Game? existingGame = games.Find(game => game.Id == id);
-            if (existingGame is null) return Results.NotFound("Game not found");
+            Game? existingGame = repository.GetGame(game.Id);
+            if (game is null)
+            {
+                return null;
+            }
+            else
+            {
+                var newGame = repository.UpdateGame(game);
+                return newGame;
 
-            existingGame.Name = game.Name;
-            existingGame.Price = game.Price;
-            existingGame.ImageUrl = game.ImageUrl;
-            existingGame.ReleaseDate = game.ReleaseDate;
+            }
 
-            return Results.Ok(game);
+
         });
 
         gameRoute.MapDelete("/{id}", (int id) =>
         {
-            Game? game = games.Find(game => game.Id == id);
+            Game? game = repository.GetGame(id);
             if (game is null) return Results.NotFound("game not found");
-            games.Remove(game);
+            repository.DeleteGame(id);
             return Results.Ok(game);
         });
 
