@@ -1,5 +1,7 @@
 
 
+using GameApi.Endpoints;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,24 +11,24 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var route = builder.Build();
+var app = builder.Build();
 
 // Configu XIVre the HTTP request pipeline.
-if (route.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    route.UseSwagger();
-    route.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-route.MapGet("/", () => "Hello Word 1");
+app.MapGet("/", () => "Hello Word 1");
+
+app.MapGameEndpoints();
+
+app.UseHttpsRedirection();
 
 
+app.UseAuthorization();
 
-route.UseHttpsRedirection();
+app.MapControllers();
 
-
-route.UseAuthorization();
-
-route.MapControllers();
-
-route.Run();
+app.Run();
