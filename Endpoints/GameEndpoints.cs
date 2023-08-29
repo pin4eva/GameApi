@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameApi.Dtos;
 using GameApi.Entities;
+using GameApi.Entities.Extension;
 using GameApi.Repositories;
 
 namespace GameApi.Endpoints;
@@ -13,28 +15,44 @@ public static class GameEndpoints
 
     public static RouteGroupBuilder MapGameEndpoints(this IEndpointRouteBuilder route)
     {
-        InMemoryRepository repository = new();
+
 
 
         var gameRoute = route.MapGroup("/games").WithParameterValidation();
 
-        gameRoute.MapGet("", () => repository.GetGames());
-        gameRoute.MapGet("/{id}", (int id) => repository.GetGame(id));
-        gameRoute.MapPost("", (Game game) =>
+        gameRoute.MapGet("", (IGameRepository repository) => repository.GetAll().Select(game => game.AsDto()));
+        gameRoute.MapGet("/{id}", (IGameRepository repository, int id) => repository.Get(id)?.AsDto());
+        gameRoute.MapPost("", (IGameRepository repository, CreateGameDTO gameDTO) =>
         {
-            return repository.CreateGame(game);
+            Game game = new()
+            {
+                Name = gameDTO.Name,
+                ImageUrl = gameDTO.ImageUrl,
+                Price = gameDTO.Price,
+                ReleaseDate = gameDTO.ReleaseDate,
+                Genre = gameDTO.Genre,
+            };
+            return repository.Create(game);
         });
 
-        gameRoute.MapPut("/", (Game game) =>
+        gameRoute.MapPut("/", (IGameRepository repository, UpdateGameDTO updatedGameDTO) =>
         {
-            Game? existingGame = repository.GetGame(game.Id);
-            if (game is null)
+            Game? existingGame = repository.Get(updatedGameDTO.Id);
+            if (existingGame is null)
             {
                 return null;
             }
             else
             {
-                var newGame = repository.UpdateGame(game);
+                Game game = new()
+                {
+                    Name = updatedGameDTO.Name,
+                    ImageUrl = updatedGameDTO.ImageUrl,
+                    Price = updatedGameDTO.Price,
+                    ReleaseDate = updatedGameDTO.ReleaseDate,
+                    Genre = updatedGameDTO.Genre,
+                };
+                var newGame = repository.Update(game);
                 return newGame;
 
             }
@@ -42,11 +60,11 @@ public static class GameEndpoints
 
         });
 
-        gameRoute.MapDelete("/{id}", (int id) =>
+        gameRoute.MapDelete("/{id}", (IGameRepository repository, int id) =>
         {
-            Game? game = repository.GetGame(id);
+            Game? game = repository.Get(id);
             if (game is null) return Results.NotFound("game not found");
-            repository.DeleteGame(id);
+            repository.Delete(id);
             return Results.Ok(game);
         });
 

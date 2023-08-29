@@ -3,7 +3,7 @@ using GameApi.Entities;
 
 namespace GameApi.Repositories;
 
-public class InMemoryRepository
+public class InMemoryGameRepository : IGameRepository
 {
     static readonly List<Game> games = new()
 {
@@ -12,32 +12,32 @@ new Game(){Id=2, Name="Final Fantacy XIV", Genre="RolePlaying",Price=69.99M,Rele
 new Game(){Id=3, Name="FIFA 23", Genre="Fighting",Price=19.99M,ReleaseDate= new DateTime(2022, 9, 27),ImageUrl="https://placeholder.co/100"},
 };
 
-    public IEnumerable<Game> GetGames()
+    public IEnumerable<Game> GetAll()
     {
         return games;
     }
 
-    public Game? GetGame(int id)
+    public Game? Get(int id)
     {
         Game? game = games.SingleOrDefault(game => game.Id == id);
         return game;
     }
 
-    public Game CreateGame(Game game)
+    public Game Create(Game game)
     {
         game.Id = games.Max(game => game.Id) + 1;
         games.Add(game);
         return game;
     }
 
-    public Game UpdateGame(Game game)
+    public Game Update(Game game)
     {
         var index = games.FindIndex(x => x.Id == game.Id);
         games[index] = game;
         return game;
     }
 
-    public Game? DeleteGame(int id)
+    public Game? Delete(int id)
     {
         Game? game = games.Find(game => game.Id == id);
         if (game is not null) games.Remove(game);
