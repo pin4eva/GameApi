@@ -46,6 +46,7 @@ public static class GameEndpoints
             {
                 Game game = new()
                 {
+                    Id = existingGame.Id,
                     Name = updatedGameDTO.Name,
                     ImageUrl = updatedGameDTO.ImageUrl,
                     Price = updatedGameDTO.Price,
